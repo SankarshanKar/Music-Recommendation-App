@@ -1,10 +1,12 @@
 import pandas as pd
 from sklearn.metrics.pairwise import cosine_similarity
-import streamlit as st
 import os
 
 import spotipy
 from spotipy.oauth2 import SpotifyClientCredentials
+
+import streamlit as st
+st.set_page_config(layout="wide")
 
 
 dataset = pd.read_csv('Datasets/useful_feature.csv')
@@ -117,15 +119,34 @@ def get_track_image(rec_list):
         try:
             url = sp.track(x)['album']['images'][0]['url']
         except:
-            url = 'assets/no_img.jpg'
+            url = 'https://img.toolstud.io/240x240/3b5998/fff&text=+640x640+'
         track_image.append(url)
 
     return track_image
 
 
+def get_track_url(rec_list):
+    track_url = []
+    dummy = "https://open.spotify.com/track/"
+    for x in rec_list:
+        try:
+            url = dummy + x
+        except:
+            url = "https://open.spotify.com/"
+        track_url.append(url)
+    
+    return track_url
+
+
 track_name = []
 track_artist = []
 track_image = []
+track_url = []
+
+
+def getLinkToImage(track_image, track_link):
+    markdown_output = "[![Foo](%s)](%s)" %(track_image, track_link)
+    return markdown_output
 
 
 def display():
@@ -133,53 +154,66 @@ def display():
 
     with col1:
         st.header(track_name[0])
-        st.image(track_image[0])
+        # st.image(track_image[0])
+        st.markdown(getLinkToImage(track_image[0], track_url[0]))
         st.write(track_artist[0][0])
 
     with col2:
         st.header(track_name[1])
-        st.image(track_image[1])
+        # st.image(track_image[1])
+        st.markdown(getLinkToImage(track_image[1], track_url[1]))
         st.write(track_artist[1][0])
 
     with col3:
         st.header(track_name[2])
-        st.image(track_image[2])
+        # st.image(track_image[2])
+        st.markdown(getLinkToImage(track_image[2], track_url[2]))
         st.write(track_artist[2][0])
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
         st.header(track_name[3])
-        st.image(track_image[3])
+        # st.image(track_image[3])
+        st.markdown(getLinkToImage(track_image[3], track_url[3]))
         st.write(track_artist[3][0])
 
     with col2:
         st.header(track_name[4])
-        st.image(track_image[4])
+        # st.image(track_image[4])
+        st.markdown(getLinkToImage(track_image[4], track_url[4]))
         st.write(track_artist[4][0])
 
     with col3:
         st.header(track_name[5])
-        st.image(track_image[5])
+        # st.image(track_image[5])
+        st.markdown(getLinkToImage(track_image[5], track_url[5]))
         st.write(track_artist[5][0])
 
 
 st.title('Music Recommender system')
 
-playlistID = st.text_input('Playlist ID', '')
+# playlistID = st.text_input('Playlist ID', '')
 
 
-if st.button('Recommend'):
+playlistID = ""
+user_query = st.text_input('Playlist ID', '')
+
+
+if st.button('Recommend') or (playlistID != user_query):
+    playlistID = user_query
     recommended_track_id_list = get_recommendation(playlistID)
 
     track_name = get_track_name(recommended_track_id_list)
     track_artist = get_track_artist(recommended_track_id_list)
     track_image = get_track_image(recommended_track_id_list)
+    track_url = get_track_url(recommended_track_id_list)
 
     display()
 
-link='check out this [link](https://retailscope.africa/)'
-st.markdown(link,unsafe_allow_html=True)
+
+# st.markdown("[![Foo](http://www.google.com.au/images/nav_logo7.png)](http://google.com.au/)")
+# st.markdown(getLinkToImage("http://www.google.com.au/images/nav_logo7.png", "https://www.geeksforgeeks.org/string-formatting-in-python/"))
 
 
 # col1, col2, col3 = st.columns(3)
