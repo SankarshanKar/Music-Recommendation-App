@@ -10,25 +10,18 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 
 
-pd.set_option('display.max_columns', None)
 
 
 dataset = pd.read_csv('/mnt/4CB2D623B2D610F6/Projects/Extra/MLProject/test-apps/StreamLit-app/music-recommendation-app/Datasets/dataset.csv')
-print(dataset.head())
-print(dataset.info())
 
 
 dataset = dataset[['track_id', 'artists', 'track_genre', 'mode' , 'key' ,'popularity' ,'danceability', 'energy', 'speechiness', 'acousticness', 'liveness', 'valence', 'tempo' ]]
-print(dataset.head())
 
 
-print(len(pd.unique(dataset['track_id'])))
-print(len(pd.unique(dataset['track_genre'])))
-print(dataset['track_genre'].unique())
+
 
 
 dataset.drop_duplicates(subset=['track_id'], inplace = True)
-print(dataset.info())
 
 
 dataset.dropna(inplace = True)
@@ -83,8 +76,5 @@ def create_feature_set(df, float_cols):
 
 float_cols = dataset.dtypes[dataset.dtypes == 'float64'].index.values
 
-dataset.to_csv("/mnt/4CB2D623B2D610F6/Projects/Extra/MLProject/test-apps/StreamLit-app/music-recommendation-app/temp/useful_feature.csv", index = False)
 
 complete_feature_set = create_feature_set(dataset, float_cols=float_cols)
-print(complete_feature_set.head())
-complete_feature_set.to_csv("/mnt/4CB2D623B2D610F6/Projects/Extra/MLProject/test-apps/StreamLit-app/music-recommendation-app/temp/complete_feature.csv", index = False)
