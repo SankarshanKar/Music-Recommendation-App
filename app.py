@@ -28,10 +28,7 @@ def create_playlist_df_that_in_dataset(playlist_id, dataset):
     for ix, i in enumerate(sp.playlist_tracks(playlist_id)['items']):
         playlist.loc[ix, 'artist'] = i['track']['artists'][0]['name']
         playlist.loc[ix, 'name'] = i['track']['name']
-        playlist.loc[ix, 'track_id'] = i['track']['id'] # ['uri'].split(':')[2]
-        # playlist.loc[ix, 'url'] = i['track']['album']['images'][1]['url']
-
-    # playlist['date_added'] = pd.to_datetime(playlist['date_added'])
+        playlist.loc[ix, 'track_id'] = i['track']['id']
 
     playlist = playlist[playlist['track_id'].isin(dataset['track_id'].values)]
 
@@ -39,9 +36,7 @@ def create_playlist_df_that_in_dataset(playlist_id, dataset):
 
 
 def generate_playlist_feature(complete_feature_set, playlist_in_df):
-    #findings songs in playlist with their features
     complete_feature_set_playlist = complete_feature_set[complete_feature_set['track_id'].isin(playlist_in_df['track_id'].values)]
-    # find non-playlist songs features
     complete_feature_set_nonplaylist = complete_feature_set[~complete_feature_set['track_id'].isin(playlist_in_df['track_id'].values)]
     complete_feature_set_playlist_final = complete_feature_set_playlist.drop(columns = "track_id")
 
@@ -49,10 +44,8 @@ def generate_playlist_feature(complete_feature_set, playlist_in_df):
 
 
 def generate_recommendation(dataset, playlist_vector, nonplaylist_features):
-    #songs that are in dataset but not in playlist
     non_playlist_df = dataset[dataset['track_id'].isin(nonplaylist_features['track_id'].values)]
 
-    # Find cosine similarity between the playlist and the complete song set
     non_playlist_df['sim'] = cosine_similarity(nonplaylist_features.drop('track_id', axis = 1).values, playlist_vector.values.reshape(1, -1))[:,0]
 
     return non_playlist_df.sort_values('sim',ascending = False)
@@ -61,10 +54,6 @@ def generate_recommendation(dataset, playlist_vector, nonplaylist_features):
 def get_top_rec(recommend, top):
     res_df = recommend.head(top).copy()
     res_df = res_df['track_id']
-    # res_df['track_name'] = res_df['track_id'].apply(lambda x : sp.track(x)['name'])
-    # res_df['artist_name'] = res_df['track_id'].apply(lambda x : sp.track(x)['artists'][0]['name'])
-    # res_df['image_url'] = res_df['track_id'].apply(lambda x : sp.track(x)['album']['images'][0]['url'])
-    # print(res_df.info())
     return res_df
 
 
@@ -193,7 +182,6 @@ def display():
 
 st.title('Music Recommender system')
 
-# playlistID = st.text_input('Playlist ID', '')
 
 
 playlistID = ""
@@ -212,66 +200,3 @@ if st.button('Recommend') or (playlistID != user_query):
     display()
 
 
-# st.markdown("[![Foo](http://www.google.com.au/images/nav_logo7.png)](http://google.com.au/)")
-# st.markdown(getLinkToImage("http://www.google.com.au/images/nav_logo7.png", "https://www.geeksforgeeks.org/string-formatting-in-python/"))
-
-
-# col1, col2, col3 = st.columns(3)
-
-# with col1:
-#    st.header(track_name[0])
-#    st.image(track_image[0])
-#    st.write(track_artist[0][0])
-
-# with col2:
-#    st.header("A dog")
-#    st.image("https://i.scdn.co/image/ab67616d0000b273c8d7445dbee75973efa970e8")
-#    st.write('DRE')
-
-# with col3:
-#    st.header("An owl")
-#    st.image("https://i.scdn.co/image/ab67616d0000b273a2aa64255899f18ea3c855c8")
-#    st.write('DRE')
-
-# col1, col2, col3 = st.columns(3)
-
-# with col1:
-#    st.header("A cat")
-#    st.image("https://i.scdn.co/image/ab67616d0000b2739180ec245c2d22d169155c79")
-#    st.write('DRE')
-
-# with col2:
-#    st.header("A dog")
-#    st.image("https://i.scdn.co/image/ab67616d0000b273c8d7445dbee75973efa970e8")
-#    st.write('DRE')
-
-# with col3:
-#    st.header("An owl")
-#    st.image("https://i.scdn.co/image/ab67616d0000b273a2aa64255899f18ea3c855c8")
-#    st.write('DRE')
-
-
-
-
-
-# col1, col2, col3, col4, col5 = st.columns(5)
-
-# with col1:
-#    st.header("A cat")
-#    st.image("https://i.scdn.co/image/ab67616d0000b2739180ec245c2d22d169155c79")
-
-# with col2:
-#    st.header("A dog")
-#    st.image("https://i.scdn.co/image/ab67616d0000b273c8d7445dbee75973efa970e8")
-
-# with col3:
-#    st.header("An owl")
-#    st.image("https://i.scdn.co/image/ab67616d0000b273a2aa64255899f18ea3c855c8")
-
-# with col4:
-#    st.header("A dog")
-#    st.image("https://i.scdn.co/image/ab67616d0000b273c8d7445dbee75973efa970e8")
-
-# with col5:
-#    st.header("An owl")
-#    st.image("https://i.scdn.co/image/ab67616d0000b273a2aa64255899f18ea3c855c8")
