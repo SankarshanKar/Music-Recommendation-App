@@ -81,7 +81,7 @@ def get_track_name(rec_list):
             track_name = 'null'
 
         track_name_list.append(track_name)
-    print(track_name_list)
+    # print(track_name_list)
     return track_name_list
 
 
