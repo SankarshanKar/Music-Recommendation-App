@@ -169,8 +169,8 @@ def display():
 
     with col2:
         st.header(track_name[4])
-        # st.image(track_image[4])
-        st.markdown(getLinkToImage(track_image[4], track_url[4]))
+        st.image(track_image[4])
+        # st.markdown(getLinkToImage(track_image[4], track_url[4]))
         st.write(track_artist[4][0])
 
     with col3:
