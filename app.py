@@ -143,28 +143,28 @@ def display():
 
     with col1:
         st.header(track_name[0])
-        # st.image(track_image[0])
-        st.markdown(getLinkToImage(track_image[0], track_url[0]))
+        st.image(track_image[0])
+        # st.markdown(getLinkToImage(track_image[0], track_url[0]))
         st.write(track_artist[0][0])
 
     with col2:
         st.header(track_name[1])
-        # st.image(track_image[1])
-        st.markdown(getLinkToImage(track_image[1], track_url[1]))
+        st.image(track_image[1])
+        # st.markdown(getLinkToImage(track_image[1], track_url[1]))
         st.write(track_artist[1][0])
 
     with col3:
         st.header(track_name[2])
-        # st.image(track_image[2])
-        st.markdown(getLinkToImage(track_image[2], track_url[2]))
+        st.image(track_image[2])
+        # st.markdown(getLinkToImage(track_image[2], track_url[2]))
         st.write(track_artist[2][0])
 
     col1, col2, col3 = st.columns(3)
 
     with col1:
         st.header(track_name[3])
-        # st.image(track_image[3])
-        st.markdown(getLinkToImage(track_image[3], track_url[3]))
+        st.image(track_image[3])
+        # st.markdown(getLinkToImage(track_image[3], track_url[3]))
         st.write(track_artist[3][0])
 
     with col2:
@@ -175,8 +175,8 @@ def display():
 
     with col3:
         st.header(track_name[5])
-        # st.image(track_image[5])
-        st.markdown(getLinkToImage(track_image[5], track_url[5]))
+        st.image(track_image[5])
+        # st.markdown(getLinkToImage(track_image[5], track_url[5]))
         st.write(track_artist[5][0])
 
 
